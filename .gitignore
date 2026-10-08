@@ -37,3 +37,14 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+node_modules/
+target/
+.idea/
+*.iml
+
+playwright-report/
+test-results/
+
+allure-results/
+allure-report/
