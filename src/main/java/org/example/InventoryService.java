@@ -42,21 +42,76 @@ public class InventoryService {
 
         if (resetOtherLocations) {
 
-            for (String location :
-                    LocationConstants.ALL_LOCATIONS) {
+            for (String location : LocationConstants.ALL_LOCATIONS) {
 
                 if (location.equals(targetLocation)) {
+                    continue;
+                }
+
+                if (!hasStock(itemId, location)) {
+
+                    System.out.println(
+                            "Location " + location +
+                                    " zaten 0, güncelleme yapılmadı.");
+
                     continue;
                 }
 
                 updateSingleLocation(
                         itemId,
                         location,
-                        0);
+                        0
+                );
             }
         }
     }
 
+    private boolean hasStock(
+            String itemId,
+            String locationId)
+            throws Exception {
+
+        String token =
+                MAOAuthService.getAccessToken();
+
+        String supplyTypeId =
+                determineSupplyType(locationId);
+
+        String query =
+                String.format(
+                        "ItemId='%s' AND LocationId='%s' AND SupplyTypeId.SupplyTypeId='%s'",
+                        itemId,
+                        locationId,
+                        supplyTypeId);
+
+        APIResponse response =
+                requestContext.get(
+                        BASE_URL +
+                                "/inventory/api/inventory/supply",
+                        RequestOptions.create()
+                                .setHeader(
+                                        "Authorization",
+                                        "Bearer " + token)
+                                .setQueryParam(
+                                        "query",
+                                        query));
+
+        JsonNode json =
+                mapper.readTree(response.text());
+
+        JsonNode data =
+                json.path("data").get(0);
+
+        if (data == null) {
+            return false;
+        }
+
+        int quantity =
+                data.path("Quantity")
+                        .asInt();
+
+        return quantity > 0;
+    }
     private void updateSingleLocation(
             String itemId,
             String locationId,

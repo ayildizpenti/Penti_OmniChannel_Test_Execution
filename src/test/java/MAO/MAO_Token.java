@@ -1,5 +1,5 @@
 
-package tests.MAO;
+package MAO;
 
 import org.example.MAOAuthService;
 import org.junit.jupiter.api.Test;

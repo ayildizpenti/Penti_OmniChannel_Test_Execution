@@ -61,7 +61,7 @@ public class MAOAuthService {
                                     FormData.create()
                                             .set("grant_type", "password")
                                             .set("username", "aliyildiz_penti-turkey")
-                                            .set("password", "Penti1995.tr346789")
+                                            .set("password", "Penti1995.tr3467890")
                             )
             );
 
