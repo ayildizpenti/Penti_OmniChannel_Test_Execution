@@ -6,14 +6,24 @@ import org.testng.annotations.Test;
 
 public class MP_01 {
 
+    // MP Single Line TY Scenario
+    //Item A - 2 qty
+
+    String ItemA = "PLNADGST22IY003";
+    String ItemA_barcode="6300249093301";
+    String Location = "1302";
+    int quantity= 30;
+    int orderqunatity = 2;
+    boolean resetOtherLocations= true;
+
     @Test
     public void stockPreparation() throws Exception {
 
         StockUtils.updateStock(
-                "PLNADGST22IY003",
-                "1302",
-                10,
-                true
+                ItemA,
+                Location,
+                quantity,
+                resetOtherLocations
         );
     }
 
@@ -22,8 +32,8 @@ public class MP_01 {
 
         String orderNo =
                 OrderUtils.createOrder(
-                        "6300249093301", 2,
-                        "6300249093318", 1
+                        ItemA_barcode, orderqunatity
+
                 );
 
         System.out.println(
